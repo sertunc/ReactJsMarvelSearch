@@ -51,23 +51,28 @@ class App extends Component {
   }
 
   CharacterSearch = (term) => {
-    if (term.length === 0) return;
+    if (term.length === 0) {
+      this.setState({ error: "Arama Kriteri Boş Geçilemez!" });
+      return;
+    }
 
     const url = `${API_URL}/characters?${auth}&limit=5&nameStartsWith=${term}`;
 
-    fetch(url).then(result => result.json()).then(result => {
-      if (result.data.results.length === 0) {
-        alert("Sonuç Bulunamadı");
-        return;
-      }
+    fetch(url)
+      .then(result => result.json())
+      .then(result => {
+        if (result.data.results.length === 0) {
+          this.setState({ error: "Sonuç Bulunamadı!" });
+          return;
+        }
 
-      this.setState({
-        loading: false,
-        error: result.error || null,
-        characters: result.data.results
-      });
+        this.setState({
+          loading: false,
+          error: result.error || null,
+          characters: result.data.results
+        });
 
-    })
+      })
       .catch(error => {
         this.setState({ error, loading: false });
       });
@@ -83,7 +88,10 @@ class App extends Component {
 
     return (
       <div className="container">
+
         <SearchBar onSearchButtonClick={this.CharacterSearch} />
+
+        {this.state.error}
 
         <CharacterList
           characters={this.state.characters}
