@@ -4,18 +4,20 @@ class SearchBar extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { term: '' };
+        this.state = {
+            searchTerm: ''
+        };
     }
 
-    onInputChange(term) {
-        this.setState({ term });
+    onInputChange(searchTermValue) {
+        this.setState({ searchTerm: searchTermValue });
     }
 
     handleKeyPress = event => {
-        if (event.key === 'Enter' && this.state.term.length > 0) {
-            this.props.onSearchButtonClick(this.state.term);
+        if (event.key === 'Enter' && this.state.searchTerm.length > 0) {
+            this.props.onSearchButtonClick(this.state.searchTerm);
         }
-    };
+    }
 
     render() {
         return (
@@ -25,14 +27,14 @@ class SearchBar extends Component {
                         <input
                             className="form-control input-lg"
                             placeholder="Arama kriteri giriniz..."
-                            value={this.state.term}
+                            value={this.state.searchTerm}
                             onChange={event => this.onInputChange(event.target.value)}
                             onKeyPress={this.handleKeyPress}
                         />
                         <span className="input-group-btn">
                             <button
                                 className="btn btn-info input-lg"
-                                onClick={() => this.props.onSearchButtonClick(this.state.term)}>
+                                onClick={() => this.props.onSearchButtonClick(this.state.searchTerm)}>
                                 <i className="glyphicon glyphicon-search" />
                             </button>
                         </span>
