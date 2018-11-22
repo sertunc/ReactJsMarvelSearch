@@ -9,8 +9,14 @@ class SearchBar extends Component {
         };
     }
 
-    onInputChange(searchTermValue) {
-        this.setState({ searchTerm: searchTermValue });
+    // onInputChange(searchTermValue) {
+    //     this.setState({ searchTerm: searchTermValue });
+    // }
+
+    handleUserInput(e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({ [name]: value });
     }
 
     handleKeyPress = event => {
@@ -25,10 +31,11 @@ class SearchBar extends Component {
                 <div className="col-md-6 col-md-offset-3 search-bar">
                     <div className="input-group">
                         <input
+                            name="searchTerm"
                             className="form-control input-lg"
                             placeholder="Arama kriteri giriniz..."
                             value={this.state.searchTerm}
-                            onChange={event => this.onInputChange(event.target.value)}
+                            onChange={event => this.handleUserInput(event)}
                             onKeyPress={this.handleKeyPress}
                         />
                         <span className="input-group-btn">

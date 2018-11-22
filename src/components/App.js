@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 //import { BrowserRouter as Router, Route } from 'react-router-dom';
 import md5 from 'md5';
 
+import NavBar from '../containers/NavBar';
 import SearchBar from './search-bar';
 import CharacterList from './character-list'
 import Details from './details'
+import ErrorMessage from '../containers/ErrorMessage';
 
 const API_URL = 'https://gateway.marvel.com:443/v1/public/';
 const publicKey = '6fb6da3f52b25f46056f4612dda84d6c';
@@ -83,15 +85,21 @@ class App extends Component {
   }
 
   render() {
+    let showErrorComponent;
 
     if (!this.state.characters) return <h1>Yükleniyor...</h1>;
 
+    if (this.state.error) {
+      showErrorComponent = <ErrorMessage errorMessage={this.state.error} />
+    }
+
     return (
       <div className="container">
+        <NavBar />
 
         <SearchBar onSearchButtonClick={this.CharacterSearch} />
 
-        {this.state.error}
+        {showErrorComponent}
 
         <CharacterList
           characters={this.state.characters}
@@ -101,6 +109,8 @@ class App extends Component {
       </div>
     );
   }
+
+
 }
 
 export default App;
